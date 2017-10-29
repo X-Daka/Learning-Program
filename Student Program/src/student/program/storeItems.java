@@ -14,33 +14,44 @@ public class storeItems {
         this.itemPrice = itemPrice;
         this.itemStock = itemStock;
     }
-
-    public void storeItems(String itemName, double itemCost, int itemStock) {
-        this.itemName = itemName;
-        this.itemPrice = itemCost;
-        this.itemStock = itemStock;
+    
+    public String getItemName() {
+        
+        return itemName;
+    }
+    
+    public double getItemPrice() {
+        
+        return itemPrice;
+    }
+    
+    public int getItemStock() {
+        
+        return itemStock;
     }
 
-    public void purchase(double amount, int quantity) {
-        if (amount == (itemPrice * quantity) && itemStock > quantity) {
+    public boolean purchase(double amount, int quantity) {
+        if (amount == (itemPrice * quantity) && itemStock >= quantity) {
             itemStock -= quantity;
             amntSold += quantity;
+            return true;
         } else if (amount != (itemPrice * quantity)) {
             System.out.println("*improper funds*");
+            return false;
         } else if (quantity > itemStock) {
             System.out.println("*cannot support stock*");
-        } else {
-            invalidCommand("sellItem");
-        }
-
+            return false;
+        } 
+        return false;
     }
 
+    
     public void addQuantity(int amount) {
         itemStock += amount;
     }
 
-    public void checkStock() {
-        System.out.println("Stock " + itemStock);
+    public int checkStock() {
+       return itemStock;
     }
 
     public void changePrice(int newItemPrice) {
@@ -59,10 +70,15 @@ public class storeItems {
         System.out.println("Gross: " + (amntSold * itemPrice));
         System.out.println("Amount sold: " + amntSold);
     }
+    
+    public String itemStats() {
+        
+        return "Item name: " + itemName + " | Ammount Sold: " + amntSold + " | Gross income: " + (amntSold * itemPrice);
+    }
 
     @Override
     public String toString() {
 
-        return "Item name: " + itemName + " | Ammount Sold: " + amntSold + " | Gross income: " + (amntSold * itemPrice);
+        return "Item name: " + itemName + " | Item price: " + itemPrice + " | Item stock: " + itemStock;
     }
 }

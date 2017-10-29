@@ -8,31 +8,29 @@ public class cardCreator {
     private String owner;
     private double initialBal;
     private double balance;
-    private int transactions;
+    private int transactions = 1;
 
     cardCreator(String name, double amount) {
         this.owner = name;
         this.initialBal = amount;
+        this.balance = initialBal;
+    }
+    
+    public double getBalance() {
+    
+        return balance;
     }
 
-    public void cardCreator(String owner, double initialBal) {
-        this.owner = owner;
-        this.initialBal = initialBal;
-    }
-
-    public void checkBal() {
-        System.out.println("Balance: " + balance);
-        System.out.println("Transaction count: " + transactions);
-    }
-
-    public void payment(double amount) {
-        if (amount <= balance && amount > 0) {
+    public boolean payment(double amount, storeItems item, int quantity) {
+        if (amount <= balance && amount > 0 && item.purchase(amount, quantity)) {
         balance -= amount;
         transactions++;
+        return true;
         } else if (amount > balance) {
             System.out.println("*insufficient funds*");
+            return false;
         } else {
-            invalidCommand("payment");
+            return false;
         }
     }
     
@@ -41,8 +39,14 @@ public class cardCreator {
     }
     
     public void deposit(double amount) {
+        if (amount > 0) {
         balance += amount;
         transactions++;
+        } else if (amount < 0) {
+            System.out.println("\nYou can't deposit negative money!\n");
+        } else if (amount == 0) {
+            System.out.println("\nYou can't deposit no money!\n");
+        }
     }
     public void invalidCommand(String errorLoc) {
         System.out.println("*invalid command (" + errorLoc + ")*");
